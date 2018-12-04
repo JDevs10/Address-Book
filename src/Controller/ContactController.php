@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use App\Entity\Contact;
+
 /**
      * @Route("/contact")
      */
@@ -16,8 +18,11 @@ class ContactController extends AbstractController
      */
     public function list()
     {
-        $number = random_int(0, 100);
+        $repository = $this->getDoctrine()->getRepository(Contact::class);
+        $contact = $repository->findAll();
 
-        return $this->render('contact/list.html.twig');
+        return $this->render('contact/list.html.twig', array(
+            "contact" => $contact
+        ));
     }
 }
